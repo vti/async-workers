@@ -25,6 +25,10 @@ sub push_queue {
 
     push @{$self->{queue}}, @_;
 
+    unless (@{$self->{queue}}) {
+        $self->{on_eoq}->($self);
+    }
+
     $self->_start_workers;
 
     return $self;
