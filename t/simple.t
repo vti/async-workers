@@ -3,11 +3,11 @@ use warnings;
 
 use Test::More tests => 2;
 
-use_ok('Async::Queue');
+use_ok('Async::Workers');
 
 my $i = 0;
 
-my $q = Async::Queue->new(
+my $q = Async::Workers->new(
     worker => sub {
         my $q = shift;
         my ($arg) = @_;

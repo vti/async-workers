@@ -1,0 +1,32 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+
+use lib 'lib';
+
+use AnyEvent::HTTP;
+use Async::Workers;
+
+my $cv = AnyEvent->condvar;
+
+my $q = Async::Workers->new(
+    max_workers => 10,
+    worker      => sub {
+        my $q = shift;
+        http_get 'http://google.com', sub {
+            warn 'done req';
+
+            $q->done;
+        };
+    },
+    on_eoq => sub {
+        warn 'the end';
+
+        $cv->send;
+    }
+);
+
+$q->push_queue(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
+$cv->recv;

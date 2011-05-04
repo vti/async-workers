@@ -1,4 +1,4 @@
-package Async::Queue;
+package Async::Workers;
 
 use strict;
 use warnings;
